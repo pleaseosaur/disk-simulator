@@ -1,0 +1,81 @@
+CSCI 447
+Spring 2024
+
+Andrew Cox
+Homework 5
+Disk Scheduling Analysis
+
+
+To prevent unintentional bias, the simulator was run 10 times using only the
+fully random command (R), generating a random starting position and direction
+and 1000 random requests. The results are displayed in the following table,
+where "C" is the number of direction changes and "M" is the total movement.
+
++-----+----+---------+-------+-------+--------+------+----------+
+| Run |    | FCFS    | SSTF  | SCAN  | C-SCAN | LOOK | C-LOOK   |
++-----+----+---------+-------+-------+--------+------+----------+
+|  1  | C: | 681     | 1     | 1     | 1      | 1    | 1        |
+|     | M: | 3369252 | 16764 | 16800 | 16800  | 16764| 16764    |
++-----+----+---------+-------+-------+--------+------+----------+
+|  2  | C: | 652     | 2     | 1     | 1      | 2    | 1        |
+|     | M: | 3310850 | 13347 | 16621 | 19989  | 19939| 19939    |
++-----+----+---------+-------+-------+--------+------+----------+
+|  3  | C: | 675     | 3     | 1     | 1      | 1    | 1        |
+|     | M: | 3251203 | 14001 | 14005 | 14005  | 13983| 13983    |
++-----+----+---------+-------+-------+--------+------+----------+
+|  4  | C: | 669     | 2     | 1     | 1      | 2    | 1        |
+|     | M: | 3305988 | 13473 | 16490 | 19993  | 19909| 19909    |
++-----+----+---------+-------+-------+--------+------+----------+
+|  5  | C: | 670     | 1     | 1     | 1      | 1    | 1        |
+|     | M: | 3409309 | 17283 | 17301 | 17301  | 17283| 17283    |
++-----+----+---------+-------+-------+--------+------+----------+
+|  6  | C: | 670     | 2     | 1     | 1      | 1    | 1        |
+|     | M: | 3363052 | 15350 | 14601 | 14601  | 14525| 14525    |
++-----+----+---------+-------+-------+--------+------+----------+
+|  7  | C: | 664     | 2     | 1     | 1      | 1    | 1        |
+|     | M: | 3248705 | 18745 | 11238 | 11238  | 11212| 11212    |
++-----+----+---------+-------+-------+--------+------+----------+
+|  8  | C: | 676     | 2     | 1     | 1      | 2    | 1        |
+|     | M: | 3357397 | 16623 | 13363 | 19998  | 19976| 19976    |
++-----+----+---------+-------+-------+--------+------+----------+
+|  9  | C: | 663     | 2     | 1     | 1      | 1    | 1        |
+|     | M: | 3386935 | 14766 | 15210 | 15210  | 15200| 15200    |
++-----+----+---------+-------+-------+--------+------+----------+
+| 10  | C: | 663     | 2     | 1     | 1      | 1    | 1        |
+|     | M: | 3281872 | 16437 | 13538 | 13538  | 13538| 13538    |
++-----+----+---------+-------+-------+--------+------+----------+
+
+The FCFS algorithm has both the highest number of direction changes and the
+highest total movement. While FCFS is the simplest and the most fair, it is
+also the least efficient.
+
+The SSTF algorithm has drastically fewer direction changes than FCFS, but
+still has a higher rate of variability due to the potential for the nearest
+request to be in the opposite direction.
+
+The SCAN algorithm consistently has the lowest number of direction changes due
+to servicing all request in either direction before changing direction.
+Regardless of the starting position, there will always be a single direction
+change.
+
+The C-SCAN algorithm should generally have the same number of direction changes
+as the SCAN algorithm, but has the potential for movement to be higher due to
+only servicing requests in one direction. Depending on circumstance, this could
+occasionally lead to an additional direction change.
+
+Because the LOOK algorithm behaves very similarly to the SCAN algorithm, it
+should have a similar number of direction changes. However, the LOOK algorithm
+has the potential to have additional direction changes due to the possibility of the starting head position and direction being outside of the current range
+of requests.
+
+The C-LOOK algorithm will have the same edge cases and, therefore, suffer from
+the same potential for additional direction changes and movement variability as
+the LOOK algorithm.
+
+In terms of fairness, the FCFS algorithm is the most fair, as it services
+requests in the order they are received. But for overall efficiency, the SCAN
+algorithm is the most efficient, as it services requests in a way that minimizes
+direction changes. Because it moves fully in one direction before changing, it
+may have higher total movement than some other algorithms, but, since direction
+changes are the more costly operation, SCAN would be prioritized over other
+algorithms with a higher potential for direction variability.
